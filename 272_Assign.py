@@ -1,16 +1,14 @@
-
 import json
 import boto3
 from boto3.dynamodb.conditions import Key
 
-# Initialize DynamoDB
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('StudentRecords')
 
 def lambda_handler(event, context):
     http_method = event['httpMethod']
 
-    # CREATE (POST)
+    # To create a new entry in table.
     if http_method == 'POST':
         student = json.loads(event['body'])
         table.put_item(Item=student)
@@ -19,7 +17,7 @@ def lambda_handler(event, context):
             'body': json.dumps('Student record added successfully')
         }
 
-    # READ (GET)
+    # # To get details from table using student id.
     elif http_method == 'GET':
         student_id = event['queryStringParameters']['student_id']
         response = table.get_item(Key={'student_id': student_id})
@@ -31,14 +29,14 @@ def lambda_handler(event, context):
         else:
             return {
                 'statusCode': 404,
-                'body': json.dumps('Student not found')
+                'body': json.dumps('Student details not found!!')
             }
 
-    # UPDATE (PUT)
+    # To update the details in table.
     elif http_method == 'PUT':
         student = json.loads(event['body'])
         student_id = student['student_id']
-        # Example: update the "name" field
+      
         response = table.update_item(
             Key={'student_id': student_id},
             UpdateExpression="set #n = :name",
@@ -51,18 +49,18 @@ def lambda_handler(event, context):
             'body': json.dumps({'message': 'Student updated', 'updated': response['Attributes']})
         }
 
-    # DELETE (DELETE)
+    #To delete the details from the table.
     elif http_method == 'DELETE':
         student_id = event['queryStringParameters']['student_id']
         table.delete_item(Key={'student_id': student_id})
         return {
             'statusCode': 200,
-            'body': json.dumps('Student record deleted successfully')
+            'body': json.dumps('Student record deleted successfully from the table!!')
         }
 
     else:
         return {
             'statusCode': 400,
-            'body': json.dumps('Unsupported HTTP method')
+            'body': json.dumps('Unsupported HTTP method request.')
         }
     
