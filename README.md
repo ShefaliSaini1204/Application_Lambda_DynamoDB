@@ -44,6 +44,18 @@ This project is to create a simple serverless web application using AWS Lambda a
 ![AWS-6](Test_API-2.png)
 
 
+**Write a brief reflection on the challenges you faced and what you
+learned from using AWS Lambda and DynamoDB.
+**
+--
+
+Through this project, I learnt new AWS tools and have faced challenges in setting up the tools and the environment. Throught this, I learnt how the callings are made through curl calls to APIs and got the knowledge of the internal mechanism of API gateway to Lambda function which further interacts with DynamoDB to perform the CRUD operations. 
+
+
+
+
+
+
 
 
 
